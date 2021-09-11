@@ -13,7 +13,10 @@ The stack used here consists of:
 -   Visual-Studio Code
 -   Ubuntu-20.04
 -   bash
+-   git
 -   php(7.4)
+-   phpMyAdmin
+-   apache2
 -   mariadb
 -   composer
 -   node(via nvm)
@@ -65,3 +68,28 @@ By the way, a shutdown of the WSL-System is performed in the following way:
 ```console
 wsl --shutdown
 ```
+
+# Git-Configuration
+
+# PHP-Configuration
+
+# Composer-Configuration
+
+# NODE-Configuration
+
+# Apache-Configuration
+
+# MySQL(Mariadb)-Configuration
+
+# PhpMyAdmin-Configuration
+
+# VS Code-Configuration
+
+As probably most web-devs do, the IDE of choice is Visual-Studio Code.
+The native WSL-Integration is basically the main reason is is so convenient to switch to development inside WSL on Windows.
+
+To remote into a WSL distro, the [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension will be used.
+
+Selecting **WSL-Targets** you can open the folders of your linking right inside the VS Code running on your Windows machine.
+
+Make sure to install your default extensions also inside the WSL-Box. Click onto extensions after connecting and install the ones you want inside the Ubuntu Box with one click in the lower extensions selection-screen.
