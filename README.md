@@ -19,7 +19,7 @@ The stack used here consists of:
 -   apache2
 -   mariadb
 -   composer
--   node(via nvm)
+-   node (via nvm)
 -   npm
 
 # WSL-Configuration
@@ -68,6 +68,20 @@ By the way, a shutdown of the WSL-System is performed in the following way:
 ```console
 wsl --shutdown
 ```
+
+# Windows-Configuration
+
+If you intend to make websites available via local hostnames, you need to make Windows DNS know where to find them.
+You do this by adding them to the file **C:\Windows\System32\drivers\etc\hosts**.
+
+An example configuration can be found [HERE](configs/hosts).
+
+But read up what you are doing, before messing with this file, as it may pose a threat to your machine later.
+
+To get the localhost/127.0.0.1 of your machine get forwarded on every port inside the WSL-Container reliably, you need to generate Port-forwarding rules.
+
+[THIS SCRIPT](scripts/wslnetwork.ps1) is an example, taken from [https://dev.to/vishnumohanrk/wsl-port-forwarding-2e22](https://dev.to/vishnumohanrk/wsl-port-forwarding-2e22).
+If the ports you want to forward are set in the array and the script is executed with PowerShell, these Ports should be available from your 127.0.0.1 Address on the host machine.
 
 # Git-Configuration
 
@@ -198,6 +212,21 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 ```
 
+To get Apache to serve the correct folders unter the correct hostname (configured in the Windows **hosts** file), you need to configure a virtual-host (You can choose different names than **dev.conf**):
+
+```console
+sudo nano /etc/apache2/sites-available/dev.conf
+```
+
+And insert a valid configuration. An example can be found [HERE](configs/dev.conf).
+
+Then enable the site in Apache:
+
+```console
+sudo a2ensite dev.conf
+sudo service apache2 reload
+```
+
 If later stuff misbehaves, look at the php-apache-logs for guidance:
 
 ```console
@@ -315,6 +344,46 @@ sudo chmod -R 775 /var/www/html/<yourfolder>
 ```
 
 Read access may be to few if your framework wants to create files!
+
+# Bash-Configuration
+
+If you want to have git-bash like annotation of the current git branch in your console, add this to the right location in your **.bashrc**:
+
+```bash
+# IMPORTANT TO CHANGE THIS FOR GIT BRANCH OUTPUT
+# Add git branch if its present to PS1
+parse_git_branch() {
+ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+if [ "$color_prompt" = yes ]; then
+ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\] $(parse_git_branch)\[\033[00m\]\$ '
+else
+ PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w $(parse_git_branch)\$ '
+fi
+```
+
+A correctly configured file can be seen [HERE](configs/.bashrc).
+
+But be sure you know what you do before messing with this file as it may be dangerous to your computer if hijacked.
+
+# Autostart:
+
+Sadly it is not trivial to auto-start stuff in WSL.
+
+Therefore we define scripts to make it easier to start and stop all applications.
+
+The scripts [start_programs.sh](scripts/start_programs.sh) and [stop_programs.sh](scripts/stop_programs.sh) can be placed inside the home directory.
+Then they can be executed (First two lines are only needed once):
+
+```console
+sudo chmod +x start_programs.sh
+sudo chmod +x stop_programs.sh
+
+sudo ~/start_programs.sh
+sudo ~/stop_programs.sh
+```
+
+This is also important, because it starts the php-fpm, which is required if is was chosen to be used.
 
 # If PowerShell scripts cannot be executed
 
