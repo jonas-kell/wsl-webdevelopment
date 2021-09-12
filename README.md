@@ -83,6 +83,19 @@ To get the localhost/127.0.0.1 of your machine get forwarded on every port insid
 [THIS SCRIPT](scripts/wslnetwork.ps1) is an example, taken from [https://dev.to/vishnumohanrk/wsl-port-forwarding-2e22](https://dev.to/vishnumohanrk/wsl-port-forwarding-2e22).
 If the ports you want to forward are set in the array and the script is executed with PowerShell, these Ports should be available from your 127.0.0.1 Address on the host machine.
 
+Needs **net-tools** installed on WSL (Execute on Ubuntu):
+
+```console
+sudo apt install net-tools
+```
+
+Needs Ubuntu to be your default WSL (Execute on PowerShell):
+
+```console
+wslconfig /l
+wslconfig /setdefault Ubuntu-20.04
+```
+
 # Git-Configuration
 
 ```console
