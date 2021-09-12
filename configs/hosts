@@ -1,4 +1,5 @@
 # Microsoft stuff....
+# Found at C:\Windows\System32\drivers\etc\hosts
 
 127.0.0.1 localhost
 127.0.0.1 <your-dev-site-name>
