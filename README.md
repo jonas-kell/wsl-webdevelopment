@@ -74,11 +74,11 @@ wsl --shutdown
 If you intend to make websites available via local hostnames, you need to make Windows DNS know where to find them.
 You do this by adding them to the file **C:\Windows\System32\drivers\etc\hosts**.
 
-An example configuration can be found [HERE](configs/hosts).
+An example configuration can be found [HERE](configs/hosts). The `::1 <your-dev-site-name>` part is necessary to find the domain via IPv6 which WSL 2 apparently uses. 
 
 But read up what you are doing, before messing with this file, as it may pose a threat to your machine later.
 
-To get the localhost/127.0.0.1 of your machine get forwarded on every port inside the WSL-Container reliably, you need to generate Port-forwarding rules.
+If this does not work, you can try to get the localhost/127.0.0.1 of your machine forwarded on every port inside the WSL-Container. For this you need to generate Port-forwarding rules.
 
 [THIS SCRIPT](scripts/wslnetwork.ps1) is an example, taken from [https://dev.to/vishnumohanrk/wsl-port-forwarding-2e22](https://dev.to/vishnumohanrk/wsl-port-forwarding-2e22).
 If the ports you want to forward are set in the array and the script is executed with PowerShell, these Ports should be available from your 127.0.0.1 Address on the host machine.
